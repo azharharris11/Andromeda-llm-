@@ -27,7 +27,7 @@ const initialProject: ProjectContext = {
   marketAwareness: MarketAwareness.PROBLEM_AWARE,
   funnelStage: FunnelStage.TOF,
   languageRegister: LanguageRegister.CASUAL,
-  imageModel: 'standard', // Default
+  imageModel: 'pro', // Default
   strategyMode: StrategyMode.LOGIC // Changed default to Logic based on new structure
 };
 

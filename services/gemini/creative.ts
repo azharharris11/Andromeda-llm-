@@ -122,15 +122,19 @@ export const generateCreativeStrategy = async (
       **MANDATORY VOCABULARY:** Use these keywords: [${coliseumKeywords.join(", ")}].
       `;
   }
-
-  const strategyInstruction = `
+const strategyInstruction = `
     **MANDATORY NATIVE RULE (Nano Banana Pro):**
-    - **VISUAL SCENE INSTRUCTION:** Do NOT describe a polished ad. Describe a RAW SCENE.
-    - Example: Instead of "A woman smiling holding product", use "A messy bathroom selfie with flash showing the product on the counter."
     
-    - The 'embeddedText' must be short and natively integrated (sticky note, phone UI, cardboard sign).
+    IF the Format is a UI format (Instagram Story, Twitter, Chat, NotesNotes,etc):
+    - **VISUAL SCENE INSTRUCTION:** Describe a CLOSE-UP SCREENSHOT or a PHONE SCREEN.
+    - Example: "A screenshot of an Instagram Story interface showing..."
+    
+    IF the Format is a Photo/Video:
+    - **VISUAL SCENE INSTRUCTION:** Describe a REALISTIC SCENE.
+    - Example: "A natural photo taken near a window..."
+    
+    - The 'embeddedText' must be short and natively integrated.
   `;
-
   const formatInstruction = getFormatTextGuide(format);
 
   const prompt = `

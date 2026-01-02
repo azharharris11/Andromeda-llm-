@@ -119,7 +119,7 @@ export const getFormatTextGuide = (format: CreativeFormat): string => {
              STYLE: Handwritten Sticky Note or MS Paint Scribble.
              SURFACE: A crumpled Post-it note OR a raw digital brush stroke.
              FONT: Messy handwriting (Marker style) OR pixellated digital text.
-             VIBE: Amateur, "Do It Yourself", Raw.`;
+             VIBE: Amateur, "Do It Yourself", Clean Desk Setup.`;
              
         case CreativeFormat.BIG_FONT:
         case CreativeFormat.BILLBOARD:

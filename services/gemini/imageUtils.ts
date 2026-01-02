@@ -53,10 +53,10 @@ export const ENHANCERS = {
     NANO_BANANA_RAW: `
         STYLE: "AUTHENTIC SOCIAL" REALISM.
         CAMERA: Modern Smartphone (iPhone 15 Pro or Google Pixel), sharp focus, high resolution.
-        LIGHTING: Natural window light OR Direct Flash (if specified), but NOT blurry or dark.
+        LIGHTING: Soft natural morning light, diffused window light. AVOID harsh flash.
         ENVIRONMENT: Real home setting (lived-in, authentic textures), but NOT filthy/garbage.
         VIBE: Viral organic post, "Aesthetically Real", candid, user-generated content.
-        NO: Professional studio lighting, perfect symmetry, 3D render look, blurriness, pixelation, overly dark shadows.
+        NO: perfect symmetry, 3D render look, blurriness, pixelation, overly dark shadows.
     `
 };
 
@@ -100,9 +100,9 @@ export const getSubjectFocus = (
 ): string => {
     if (marketAwareness === MarketAwareness.UNAWARE) {
         return "Focus on an ANOMALY or TEXTURE close-up. Create a 'Curiosity Gap'. Do NOT show the product logo clearly yet.";
-    }
-    if (marketAwareness === MarketAwareness.PROBLEM_AWARE) {
-        return "Focus on the SYMPTOM or the SITUATION. Show the redness, the clutter, or the tired face clearly. Authentic selfie style.";
+    }if (marketAwareness === MarketAwareness.PROBLEM_AWARE) 
+    {
+        return "Focus on the SYMPTOM. Show the problem clearly in a well-lit environment. Sharp macro shot.";
     }
     if (marketAwareness === MarketAwareness.SOLUTION_AWARE) {
         return "Focus on the COMPARISON or the MECHANISM. Show a crude but clear 'Us vs Them' setup on a table.";
