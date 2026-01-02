@@ -125,15 +125,47 @@ export const generateCreativeStrategy = async (
 const strategyInstruction = `
     **MANDATORY NATIVE RULE (Nano Banana Pro):**
     
-    IF the Format is a UI format (Instagram Story, Twitter, Chat, NotesNotes,etc):
+    IF the Format is a UI format (Instagram Story, Twitter, Chat, Notes, etc):
     - **VISUAL SCENE INSTRUCTION:** Describe a CLOSE-UP SCREENSHOT or a PHONE SCREEN.
-    - Example: "A screenshot of an Instagram Story interface showing..."
-    
-    IF the Format is a Photo/Video:
-    - **VISUAL SCENE INSTRUCTION:** Describe a REALISTIC SCENE.
-    - Example: "A natural photo taken near a window..."
-    
     - The 'embeddedText' must be short and natively integrated.
+
+    **IDENTITY & PERSPECTIVE RULE (THE "WHO IS SPEAKING?" PROTOCOL):**
+    You are the GUIDE (The Solution), not the VICTIM (The Problem). Follow these strict role assignments:
+
+    1. **TWO-WAY CONVERSATION FORMATS (Chat, DM, WhatsApp):**
+       - **LEFT BUBBLE (Grey/White):** The CLIENT/VICTIM complaining about the pain.
+       - **RIGHT BUBBLE (Blue/Green):** YOU (The Brand) validating, empathizing, or solving.
+       - *CRITICAL:* Never put the complaint in the Right bubble.
+
+    2. **ONE-WAY NOTIFICATION FORMATS (Gmail, Lockscreen, Reminder):**
+       - **SENDER NAME:** Must be the "Source of Pain" (e.g., "Ex-Boyfriend", "Bill Collector") OR a "Neutral Reminder".
+       - **MESSAGE BODY:** The pain/trigger itself.
+       - *CRITICAL:* Do not use the Brand Name as the sender of a desperate/sad message.
+
+    3. **PUBLIC POST FORMATS (Twitter, Reddit, Threads):**
+       - **IF CONTENT IS SAD/COMPLAINING:** The Handle/Username MUST be "Anonymous" (e.g., "SadGirl2024", "u/Throwaway"), representing a user.
+       - **IF CONTENT IS EDUCATIONAL/TIPS:** The Handle/Username CAN be the Brand.
+
+    4. **STORYTELLING FORMATS (IG Story, Notes, Text Overlay):**
+       - **"OBSERVER MODE":** Use "Why do so many people feel..." (Validating the audience).
+       - **"PAST SELF":** Use "I used to feel..." (Showing transformation).
+       - **"CLIENT QUOTE":** Use "A client told me..." (Social Proof).
+       - *FORBIDDEN:* "I am lonely/broke/sad" (Present tense complaint from the Brand).
+
+    5. **INTERACTIVE FORMATS (Poll, Q&A):**
+       - **POLL QUESTION:** Ask the AUDIENCE about THEIR pain ("Do YOU feel this?").
+       - **Q&A BOX:** The Question Box is the CLIENT asking/venting. The Text below is YOU answering.
+
+    6. **UGC/CREATOR FORMATS (Mirror Selfie, Rant, TikTok):**
+       - **IF VISUAL IS A CREATOR/CUSTOMER:** The text is a TESTIMONIAL ("Finally found this...").
+       - **IF VISUAL IS THE EXPERT (You):** The text is EDUCATION ("Stop doing this...").
+
+    7. **MEME FORMATS:**
+       - "Me when..." refers to the AUDIENCE'S experience (Relatability), not the Brand's experience.
+
+    **SUMMARY:**
+    - Pain/Problem = Comes from the Client/Audience/Past.
+    - Solution/Empathy = Comes from the Brand/Future.
   `;
   const formatInstruction = getFormatTextGuide(format);
 

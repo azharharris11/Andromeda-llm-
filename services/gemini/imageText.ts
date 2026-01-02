@@ -1,4 +1,3 @@
-
 import { CreativeFormat } from "../../types";
 
 /**
@@ -10,107 +9,143 @@ export const getFormatTextGuide = (format: CreativeFormat): string => {
     const baseGuide = "TEXT RENDERING INSTRUCTION:";
     
     switch (format) {
-        // --- NATIVE SOCIAL UI (Familiarity Bias) ---
+        // ============================================================
+        // GROUP 1: NATIVE SOCIAL UI (High Risk of Identity Confusion)
+        // ============================================================
         
         case CreativeFormat.IG_STORY_TEXT:
             return `${baseGuide}
             STYLE: Instagram Story Overlay.
             FONT: San Francisco (iOS) or Modern Sans-serif. White text with black semi-transparent background blocks.
-            LAYOUT: Center-aligned or Left-aligned text blocks placed naturally over the image.
-            LENGHT: ultra   long    text    copy
-            VIBE: Casual, "Curhat" style.`;
+            LAYOUT: Center-aligned or Left-aligned text blocks.
+            IDENTITY RULE: 
+             - The text MUST be from the "Healer/Guide" perspective (e.g. "Do you feel this?").
+             - OR "Past Self" perspective (e.g. "I used to struggle with..."). 
+             - NEVER present the Brand as currently suffering/complaining.
+            VIBE: Casual, "Curhat" style but Authoritative.`;
+
+        case CreativeFormat.STORY_POLL:
+            return `${baseGuide}
+            STYLE: Instagram Story Poll Sticker.
+            ELEMENTS: The Poll Question + Two Option Buttons.
+            IDENTITY RULE: 
+             - Question: Ask the AUDIENCE (e.g. "Sering ngerasa hampa?").
+             - Options: Audience Responses (e.g. "Sering bgt 😭" / "Jarang").
+             - DO NOT make the question sound like the Brand is asking for help.`;
+
+        case CreativeFormat.STORY_QNA:
+            return `${baseGuide}
+            STYLE: Instagram Q&A Sticker Response.
+            LAYOUT: A white "Question Box" (from a follower) and text below it (Brand's Answer).
+            IDENTITY RULE: 
+             - Question Box: MUST look like a Client/Follower asking/venting (e.g. "Kak, aku capek bgt...").
+             - Answer Text: MUST be the Brand giving empathy/solution.`;
 
         case CreativeFormat.PHONE_NOTES:
             return `${baseGuide}
             STYLE: Apple Notes App UI.
-            SURFACE: Textured yellowish paper background (Apple Notes style).
+            SURFACE: Textured yellowish paper background.
             FONT: System font (San Francisco), dark grey.
-            ADDITION: Render a "Hand-drawn Red Circle" or "Red Arrow" looking like it was drawn by a finger, highlighting a key phrase.`;
+            IDENTITY RULE:
+             - HEADER: Must be "Journal", "Klien bilang...", or "Catatan Hati".
+             - BODY: Can be a raw complaint, BUT the header must imply it's a quote/journal, not the Brand's official statement.`;
 
         case CreativeFormat.TWITTER_REPOST:
         case CreativeFormat.HANDHELD_TWEET:
             return `${baseGuide}
             STYLE: Twitter/X Post UI.
-            SURFACE: A printed tweet on paper OR a digital tweet overlay.
-            ELEMENTS: Profile picture circle, Name, Handle, and the Tweet Body text.
-            FONT: System sans-serif.
-            VIBE: Authentic screenshot.`;
+            SURFACE: Paper print OR Digital Overlay.
+            IDENTITY RULE: 
+             - IF text is Sad/Complaint -> Handle: "u/SadGirl", "Anon", or "User123" (NOT Brand Name).
+             - IF text is Tips/Quote -> Handle: Brand Name.
+            FONT: System sans-serif.`;
         
         case CreativeFormat.GMAIL_UX:
             return `${baseGuide}
-            STYLE: Gmail Inbox.
-            ELEMENTS: Bold Subject Line, lighter preview text.
-            FONT: Roboto or Product Sans.
-            VIBE: High urgency notification.`;
+            STYLE: Gmail Inbox Row.
+            ELEMENTS: Sender Name, Bold Subject, Lighter Preview.
+            IDENTITY RULE: Sender Name MUST be the "Source of Pain" (e.g. "Ex-Boyfriend", "Debt Collector") OR "The Solution" (e.g. "The Universe").
+            FONT: Roboto.`;
         
         case CreativeFormat.DM_NOTIFICATION:
         case CreativeFormat.REMINDER_NOTIF:
             return `${baseGuide}
-            STYLE: iOS Lockscreen Notification bubble.
-            SURFACE: Glassmorphism blur effect box.
-            ICON: Tiny app icon (Message/Calendar).
-            FONT: iOS System Font.
-            VIBE: Urgent personal alert.`;
+            STYLE: iOS Lockscreen Notification.
+            SURFACE: Glassmorphism blur.
+            IDENTITY RULE: 
+             - SENDER: Must be a person relevant to the pain (e.g. "Mama", "Him", "Crush").
+             - MESSAGE: The content of the text/pain.
+            FONT: iOS System Font.`;
         
         case CreativeFormat.CHAT_CONVERSATION:
             return `${baseGuide}
-            STYLE: iMessage or WhatsApp Chat Bubbles.
-            COLORS: Blue bubble (Right) and Grey bubble (Left).
-            FONT: iOS System Font.
-            VIBE: Private conversation screenshot.`;
+            STYLE: iMessage/WhatsApp.
+            LAYOUT: 
+             - LEFT (Grey/White): The Victim/Client complaining.
+             - RIGHT (Blue/Green): The Guide/Brand answering.
+            IDENTITY RULE: NEVER put the complaint in the Right (Blue) bubble.
+            FONT: iOS System Font.`;
             
         case CreativeFormat.SEARCH_BAR:
             return `${baseGuide}
             STYLE: Google Search Bar.
-            SHAPE: Rounded pill shape with shadow.
-            TEXT: Inside the bar, ending with a typing cursor "|".
-            FONT: Arial or Product Sans.`;
+            SHAPE: Rounded pill.
+            TEXT: Inside the bar + cursor "|".
+            IDENTITY RULE: The text is what the VICTIM is secretly searching for (e.g. "kenapa aku susah jodoh"), NOT a brand slogan.`;
 
-        // --- DATA & LOGIC (The Proof) ---
-        
-        case CreativeFormat.US_VS_THEM:
+        case CreativeFormat.REDDIT_THREAD:
             return `${baseGuide}
-            STYLE: Comparison Table (Hand-drawn or Simple Graphic).
-            COLUMNS: "Them" (Red X) vs "Us" (Green Check).
-            TEXT: Handwritten or bold simple font.
-            VIBE: Brutal honesty.`;
+            STYLE: Reddit Post Dark Mode.
+            ELEMENTS: Upvote, Title, User.
+            IDENTITY RULE: Username must be "u/Throwaway..." or generic. Brand cannot be the OP of a complaint thread.`;
 
-        case CreativeFormat.BEFORE_AFTER:
-        case CreativeFormat.OLD_ME_VS_NEW_ME:
-            return `${baseGuide}
-            STYLE: Split Screen Labels.
-            TEXT: "Day 1" vs "Day 30" (or similar time markers).
-            LOCATION: Bottom center of each split section.
-            FONT: Bold white text with black outline (Subtitle style).`;
-            
-        case CreativeFormat.GRAPH_CHART:
-        case CreativeFormat.TIMELINE_JOURNEY:
-            return `${baseGuide}
-            STYLE: Graph Annotation.
-            ELEMENT: A hand-drawn arrow pointing to the spike in the graph.
-            TEXT: Handwritten note next to the arrow explaining the result.`;
-            
-        case CreativeFormat.MECHANISM_XRAY:
-        case CreativeFormat.ANNOTATED_PRODUCT:
-        case CreativeFormat.BENEFIT_POINTERS:
-            return `${baseGuide}
-            STYLE: Scientific Labeling lines.
-            ELEMENTS:  lines pointing to specific parts of the product.
-            TEXT: Small, clean, technical font at the end of each line.`;
-
-        case CreativeFormat.TESTIMONIAL_HIGHLIGHT:
-            return `${baseGuide}
-            STYLE: Highlighted testimonial Block.
-            TEXT: A block of review text.
-            HIGHLIGHT: Bright Neon Yellow or Green highlighter mark over the most important phrase.`;
-            
         case CreativeFormat.SOCIAL_COMMENT_STACK:
             return `${baseGuide}
-            STYLE: Social Media Comments Section.
-            ELEMENTS: Tiny profile avatars, usernames, and comment text.
-            FONT: System UI font.`;
+            STYLE: Social Media Comments.
+            ELEMENTS: Avatars + Usernames + Text.
+            IDENTITY RULE: Usernames must be random people. This is Social Proof, not Brand Statement.`;
+            
+        case CreativeFormat.REELS_THUMBNAIL:
+            return `${baseGuide}
+            STYLE: Instagram Reels Cover.
+            IDENTITY RULE:
+             - IF Title is "POV: [Pain]" -> Visual is the Victim.
+             - IF Title is "Stop doing this" -> Visual is the Expert (Brand).`;
 
-        // --- UGLY ADS & PATTERN INTERRUPT ---
+        // ============================================================
+        // GROUP 2: VISUAL & CREATOR FORMATS
+        // ============================================================
+
+        case CreativeFormat.UGC_MIRROR:
+            return `${baseGuide}
+            STYLE: Mirror Selfie.
+            SUBJECT: A Gen-Z/Millennial creator holding phone.
+            IDENTITY RULE: Text Overlay must look like a Customer Testimonial ("Finally found this..."), not the CEO complaining.`;
+
+        case CreativeFormat.EDUCATIONAL_RANT:
+            return `${baseGuide}
+            STYLE: Green Screen / Talking Head overlay.
+            SUBJECT: The Expert (You) looking confident/serious.
+            IDENTITY RULE: The text caption must be Educational/Controversial Truth.`;
+            
+        case CreativeFormat.WHITEBOARD:
+            return `${baseGuide}
+            STYLE: Expert drawing on Whiteboard.
+            IDENTITY RULE: You are the Teacher. The text on board is the LESSON/FRAMEWORK, not a diary entry.`;
+
+        case CreativeFormat.MEME:
+            return `${baseGuide}
+            STYLE: Classic Meme (Top Text / Bottom Text).
+            IDENTITY RULE: Use "Me when..." or "Nobody:...", referring to the AUDIENCE's experience.`;
+            
+        case CreativeFormat.COLLAGE_SCRAPBOOK:
+            return `${baseGuide}
+            STYLE: Aesthetic Scrapbook / Moodboard.
+            IDENTITY RULE: If depicting pain, label it "Current Vibe" or "Mood". If depicting solution, label it "Vision Board".`;
+
+        // ============================================================
+        // GROUP 3: PATTERN INTERRUPT & UGLY ADS
+        // ============================================================
         
         case CreativeFormat.UGLY_VISUAL:
         case CreativeFormat.STICKY_NOTE_REALISM:
@@ -118,69 +153,94 @@ export const getFormatTextGuide = (format: CreativeFormat): string => {
              return `${baseGuide}
              STYLE: Handwritten Sticky Note or MS Paint Scribble.
              SURFACE: A crumpled Post-it note OR a raw digital brush stroke.
-             FONT: Messy handwriting (Marker style) OR pixellated digital text.
-             VIBE: Amateur, "Do It Yourself", Clean Desk Setup.`;
+             IDENTITY RULE: 
+              - IF text is "I am sad/broke" -> Sign it as "- A Client" or "Journal".
+              - IF text is "Wake Up!" -> It is the Brand speaking.`;
              
         case CreativeFormat.BIG_FONT:
         case CreativeFormat.BILLBOARD:
             return `${baseGuide}
-            STYLE: Massive Bold Overlay.
-            FONT: Impact or Helvetica Bold (Very Thick).
-            COLOR: White with black outline or Black on Yellow background.
-            SIZE: Taking up 50% of the image.`;
+            STYLE: Massive Typography Poster.
+            BACKGROUND: Solid color or texture.
+            IDENTITY RULE: This is a HEADLINE/ANNOUNCEMENT. It must sound objective (e.g. "Jodoh itu Cerminan Diri"), not subjective whining.`;
 
-        case CreativeFormat.MEME:
-            return `${baseGuide}
-            STYLE: Classic Meme Format.
-            FONT: Impact Font (White with Black Outline).
-            POSITION: Top and Bottom of image.`;
+        // ============================================================
+        // GROUP 4: DATA, LOGIC & CONVERSION
+        // ============================================================
         
-        case CreativeFormat.REDDIT_THREAD:
+        case CreativeFormat.US_VS_THEM:
             return `${baseGuide}
-            STYLE: Reddit Dark Mode.
-            ELEMENTS: Upvote arrow (Orange), Post Title, User handle.
-            BACKGROUND: Dark Grey.
-            FONT: Verdana or system sans-serif.`;
+            STYLE: Comparison Table.
+            IDENTITY RULE: "Us" is the Brand (Winner). "Them" is the Competitor/Old Way (Loser).`;
 
-        // --- CAROUSELS ---
-        
-        case CreativeFormat.CAROUSEL_EDUCATIONAL:
-        case CreativeFormat.CAROUSEL_PANORAMA:
+        case CreativeFormat.BEFORE_AFTER:
+        case CreativeFormat.OLD_ME_VS_NEW_ME:
             return `${baseGuide}
-            STYLE: Carousel Slide Header.
-            FONT: Bold, clean typography.
-            LAYOUT: Big Headline at top, smaller subtext below.
-            VIBE: Educational infographic.`;
+            STYLE: Split Screen Labels.
+            TEXT: "Dulu (Stuck)" vs "Sekarang (Lega)".
+            IDENTITY RULE: Clearly mark the timeline so the "Bad" part is in the PAST.`;
             
-        case CreativeFormat.CAROUSEL_PHOTO_DUMP:
-            return `${baseGuide}
-            STYLE: Instagram Sticker Text.
-            FONT: "Modern" or "Neon" Instagram font style.
-            ROTATION: Slightly tilted.`;
-
-        case CreativeFormat.PRESS_FEATURE:
-            return `${baseGuide}
-            STYLE: Magazine / Newspaper Headline.
-            FONT: Serif (Times New Roman style) or Bold Editorial Sans.
-            VIBE: Prestigious authority.`;
+        case CreativeFormat.TIMELINE_JOURNEY:
+             return `${baseGuide}
+             STYLE: A Journey Map / Roadmap.
+             IDENTITY RULE: 
+              - "My Journey": From Pain (Past) to Healed (Present).
+              - "Your Journey": From Stuck (Now) to Goal (Future).`;
 
         case CreativeFormat.CHECKLIST_TODO:
             return `${baseGuide}
             STYLE: Handwritten Checklist.
-            ELEMENTS: Checkboxes.
-            MARKINGS: Red cross marks (X) and Green check marks (V) drawn with a marker.`;
+            IDENTITY RULE:
+             - "To-Do List": Actions the client needs to take.
+             - "Symptoms List": Things the client is feeling (Validation).`;
 
-        // --- DEFAULTS ---
-        case CreativeFormat.AESTHETIC_MINIMAL:
+        case CreativeFormat.TESTIMONIAL_HIGHLIGHT:
+        case CreativeFormat.CAROUSEL_TESTIMONIAL:
             return `${baseGuide}
-            STYLE: Minimalist Overlay.
-            FONT: Thin, elegant sans-serif.
-            SIZE: Small and unobtrusive.`;
+            STYLE: Review Block.
+            IDENTITY RULE: Must include 5 Stars and a Client Name to attribute the quote correctly.`;
+            
+        case CreativeFormat.PRESS_FEATURE:
+            return `${baseGuide}
+            STYLE: Magazine / Newspaper Headline.
+            IDENTITY RULE: The text is what the MEDIA says about you (Third party validation).`;
+            
+        case CreativeFormat.GRAPH_CHART:
+        case CreativeFormat.VENN_DIAGRAM:
+             return `${baseGuide}
+             STYLE: Data Visualization.
+             IDENTITY RULE: Objective facts/logic. No personal pronouns "I/Me".`;
 
+        // ============================================================
+        // GROUP 5: CAROUSELS & OTHERS
+        // ============================================================
+        
+        case CreativeFormat.CAROUSEL_EDUCATIONAL:
+        case CreativeFormat.CAROUSEL_PANORAMA:
+        case CreativeFormat.LONG_TEXT:
+            return `${baseGuide}
+            STYLE: Educational Content.
+            IDENTITY RULE: The Voice of the Expert/Teacher.`;
+            
+        case CreativeFormat.CAROUSEL_REAL_STORY:
+        case CreativeFormat.CAROUSEL_PHOTO_DUMP:
+            return `${baseGuide}
+            STYLE: Storytelling / Photo Dump.
+            IDENTITY RULE: "A Day in My Life" (Brand Owner) OR "Client Success Story" (Client). Context must be clear in the first slide.`;
+            
+        case CreativeFormat.MECHANISM_XRAY:
+        case CreativeFormat.ANNOTATED_PRODUCT:
+        case CreativeFormat.BENEFIT_POINTERS:
+        case CreativeFormat.LEAD_MAGNET_3D:
+            return `${baseGuide}
+            STYLE: Product Showcase / Scientific Diagram.
+            IDENTITY RULE: Objective Product Presentation.`;
+            
+        case CreativeFormat.AESTHETIC_MINIMAL:
+        case CreativeFormat.POV_HANDS:
         default:
             return `${baseGuide}
             STYLE: Natural Text Overlay.
-            LENGTHLENGTH: LONG COPY
-            FONT: Realistic, consistent with the scene context.`;
+            IDENTITY RULE: Ensure the text attribution is clear. If it's a negative sentiment, frame it as a question or client quote.`;
     }
 };
