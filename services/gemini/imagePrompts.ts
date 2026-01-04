@@ -4,10 +4,11 @@ import { PromptContext, ENHANCERS } from "./imageUtils";
 import { getFormatTextGuide } from "./imageText"; 
 
 /**
- * NANO BANANA PRO METHODOLOGY (HYBRID ENGINE):
- * 1. Deep Context Awareness (Strategy & Pain Points).
- * 2. Dynamic Visual Direction (Lighting, Angles, Imperfection).
- * 3. Native Text Rendering.
+ * NANO BANANA PRO METHODOLOGY (REFINED):
+ * 1. Structured Narrative Formula (Subject -> Env -> Light -> Camera).
+ * 2. Technical Photorealism (Lens, Aperture, Texture).
+ * 3. Semantic Negative Prompting (Positive descriptions only).
+ * 4. Native Text Rendering Integration.
  */
 
 // Helper: Tentukan apakah format ini murni digital (UI) atau objek fisik (Scene)
@@ -33,7 +34,7 @@ const isDigitalFormat = (format: CreativeFormat): boolean => {
     return digitalFormats.includes(format);
 };
 
-// Helper: Dynamic Visual Instructions (Instruksi agar gambar "Hidup")
+// Helper: Dynamic Visual Instructions (Technical Photography & Realism)
 const getDynamicVisuals = (format: CreativeFormat): string => {
     if (isDigitalFormat(format)) {
         return `
@@ -44,10 +45,10 @@ const getDynamicVisuals = (format: CreativeFormat): string => {
         `;
     } else {
         return `
-        - **LIGHTING:** Cinematic lighting (Golden Hour, Moody Shadows, or Studio High Contrast).
-        - **COMPOSITION:** Rule of Thirds. Use Negative Space for text visibility.
-        - **TEXTURE:** High fidelity textures (skin pores, paper grain, fabric details).
-        - **DEPTH:** Strong Depth of Field (Bokeh background) to isolate the subject.
+        - **LIGHTING:** Use specific setups: "Golden hour", "Three-point softbox setup", "Diffused window light", or "Moody cinematic lighting".
+        - **CAMERA:** Specify lens type: "Captured with an 85mm portrait lens", "Macro shot", or "Wide-angle".
+        - **APERTURE:** Mention "f/1.8 for bokeh/blurred background" or "f/8 for sharp focus".
+        - **TEXTURE:** Emphasize material properties: "Matte finish", "Polished concrete", "Detailed fabric grain", "Skin pores".
         `;
     }
 };
@@ -70,7 +71,9 @@ export const generateAIWrittenPrompt = async (ctx: PromptContext): Promise<strin
         project, format, visualScene, 
         embeddedText, enhancer,
         fullStoryContext,
-        rawPersona
+        rawPersona,
+        // @ts-ignore - Pastikan update interface PromptContext di imageUtils.ts
+        hasReferenceImage 
     } = ctx;
 
     const isDigital = isDigitalFormat(format);
@@ -80,7 +83,7 @@ export const generateAIWrittenPrompt = async (ctx: PromptContext): Promise<strin
     // --- STRATEGIC DATA EXTRACTION ---
     const massDesire = fullStoryContext?.massDesire?.headline || "Deep Desire";
     const painPoint = rawPersona?.visceralSymptoms?.[0] || "Core Pain";
-    const niche = project.productName + " " + project.productDescription; // Konteks Produk
+    const niche = project.productName + " " + project.productDescription;
     
     // --- UI INSTRUCTION EXTRACTION ---
     const uiInstruction = getFormatTextGuide(format);
@@ -100,6 +103,16 @@ export const generateAIWrittenPrompt = async (ctx: PromptContext): Promise<strin
         `;
     }
 
+    // --- REFERENCE IMAGE LOGIC ---
+    let referenceInstruction = "";
+    if (hasReferenceImage) {
+        referenceInstruction = `
+        **CRITICAL REFERENCE RULE:** - The user has provided a REFERENCE IMAGE of a product or person.
+        - In your prompt, DO NOT describe a generic product/person. Instead, explicitly write: "The provided product image positioned on..." or "The provided person wearing...".
+        - Focus on describing the ENVIRONMENT, LIGHTING, and INTEGRATION of the provided subject, ensuring its key features remain unchanged.
+        `;
+    }
+
     // CORE INSTRUCTION FOR THE PROMPT ENGINEER LLM
     const systemPrompt = `
     ROLE: Nano Banana Pro Prompt Engineer (Specialist in Native Social Ads & Cinematic Storytelling).
@@ -107,13 +120,18 @@ export const generateAIWrittenPrompt = async (ctx: PromptContext): Promise<strin
     GOAL: Write a SINGLE, UNIFIED, HIGHLY DETAILED text prompt for an AI Image Generator (Gemini/Imagen).
     
     **METHODOLOGY:**
-    1. **NARRATIVE:** Write one continuous, descriptive paragraph.
+    1. **STRUCTURED NARRATIVE (Follow this Formula):**
+       - Sentence 1: A [Style] [Shot Type] of [Subject] performing [Action].
+       - Sentence 2: Set in [Environment/Background].
+       - Sentence 3: Illuminated by [Lighting Description], creating a [Mood].
+       - Sentence 4: Captured with [Camera/Lens Details] emphasizing [Texture/Detail].
     2. **ROLEPLAY:** ${roleplay}
-    3. **CONTEXT AWARENESS:** Read the Niche ("${niche}") and Pain Point ("${painPoint}"). The visual mood must match this emotion (e.g. Sad=Gloomy, Success=Bright).
+    3. **SEMANTIC NEGATIVE PROMPTS:** Do NOT use negative words like "no blur", "no distortion". Instead, describe the positive state: "sharp focus", "perfect anatomy", "clean lines".
     4. **DYNAMIC VISUALS:**
        ${dynamicVibe}
 
     ${framingInstruction}
+    ${referenceInstruction}
 
     **STRATEGIC CONTEXT:**
     - **Niche/Product:** ${niche}
@@ -135,15 +153,22 @@ export const generateAIWrittenPrompt = async (ctx: PromptContext): Promise<strin
             model: "gemini-2.0-flash-exp", // Gunakan model cepat & pintar
             contents: [{ role: "user", parts: [{ text: systemPrompt }] }],
             generationConfig: {
-                temperature: 0.8, // Sedikit kreatif agar visualnya tidak kaku
+                temperature: 0.75, // Sedikit diturunkan agar lebih patuh pada struktur formula
             }
         });
         
         let prompt = response.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
         
-        // Failsafe: Pastikan teks dirender
+        // Failsafe: Pastikan teks dirender dengan instruksi FONT SPESIFIK
         if (embeddedText && !prompt.includes(embeddedText)) {
-            prompt += ` The image must feature the text "${embeddedText}" clearly visible in the scene, rendered photorealistically.`;
+            const fontStyle = isDigital 
+                ? "modern, clean Sans-Serif UI font" 
+                : "bold, professional typography";
+            const placement = isDigital 
+                ? "clearly displayed on the screen interface" 
+                : "integrated naturally into the scene";
+                
+            prompt += ` Render the text "${embeddedText}" in a ${fontStyle}, ${placement}. The text must be legible and contrast well with the background.`;
         }
         
         return prompt;

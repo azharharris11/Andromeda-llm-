@@ -1,4 +1,3 @@
-
 import { Type } from "@google/genai";
 import { ProjectContext, CreativeFormat, GenResult, MarketAwareness } from "../../types";
 import { ai, extractJSON, generateWithRetry } from "./client";
@@ -28,10 +27,9 @@ export const generateCreativeImage = async (
   
   // NANO BANANA PRO LOGIC:
   // For text rendering and complex prompt adherence, Gemini 3 Pro Image is superior.
-  // However, we respect the user's project settings if they force "standard".
   const model = project.imageModel === 'pro' 
       ? "gemini-3-pro-image-preview" 
-      : "gemini-2.5-flash-image"; // Can be Nano Banana equivalent
+      : "gemini-2.5-flash-image"; 
 
   console.log(`🎨 Generating Image using Model: ${model} | Format: ${format}`);
   
@@ -68,12 +66,11 @@ export const generateCreativeImage = async (
 
   // DETERMINE ENHANCER: PRIORITIZE "UGLY/RAW"
   let appliedEnhancer = ENHANCERS.PROFESSIONAL;
-  if (isUglyFormat) appliedEnhancer = ENHANCERS.NANO_BANANA_RAW; // Use the new Ugly profile
+  if (isUglyFormat) appliedEnhancer = ENHANCERS.NANO_BANANA_RAW; 
   else if (isNativeStory || format === CreativeFormat.CAROUSEL_REAL_STORY) appliedEnhancer = ENHANCERS.UGC;
 
   const safety = getSafetyGuidelines(isUglyFormat);
   
-
   const fullStoryContext = {
       story: persona.storyData,
       mechanism: persona.mechanismData,
@@ -101,26 +98,31 @@ export const generateCreativeImage = async (
   // STEP 2: Construct the Parts for Nano Banana (Text Prompt + Optional Reference Image)
   const parts: any[] = [{ text: finalPrompt }];
   
-  // NANO BANANA PRO METHOD: 
+  [cite_start]// NANO BANANA PRO METHOD - IMPROVED FOR FIDELITY [cite: 746, 759]
   // Reference images are passed alongside the Unified Text Prompt to guide structure/product.
   if (referenceImageBase64) {
       const base64Data = referenceImageBase64.split(',')[1] || referenceImageBase64;
       parts.unshift({ inlineData: { mimeType: "image/png", data: base64Data } });
-      // We append a small instruction to ensure the reference is used as structure/subject
-      parts.push({ text: " Use the image provided as a visual reference for the product or layout structure." });
+      // Updated instruction for high fidelity preservation
+      parts.push({ text: " Using the provided image as the main subject, generate the requested scene. Ensure the key features, colors, and logos of the product in the provided image remain completely unchanged and look naturally lit." });
   } else if (project.productReferenceImage) {
       const base64Data = project.productReferenceImage.split(',')[1] || project.productReferenceImage;
       parts.unshift({ inlineData: { mimeType: "image/png", data: base64Data } });
-      parts.push({ text: " Use the product in the provided image as the subject." });
+      // Updated instruction for high fidelity preservation
+      parts.push({ text: " Using the provided image as the main subject, generate the requested scene. Ensure the key features, colors, and logos of the product in the provided image remain completely unchanged and look naturally lit." });
   }
 
   try {
+    const isPro = model.includes("gemini-3-pro");
+    
     const response = await generateWithRetry({
       model,
       contents: { parts },
       config: { 
           imageConfig: { 
-              aspectRatio: aspectRatio === "1:1" ? "1:1" : "9:16" 
+              aspectRatio: aspectRatio === "1:1" ? "1:1" : "9:16",
+              [cite_start]// ENABLE 2K RESOLUTION FOR PRO MODEL [cite: 902, 911]
+              imageSize: isPro ? "2K" : undefined
           } 
       }
     });
@@ -206,13 +208,20 @@ export const generateCarouselSlides = async (
 
     const imageUrls: string[] = [];
     let outputTokens = 0;
+    const isPro = imageModel.includes("gemini-3-pro");
 
     for (const slidePrompt of slidePrompts) {
         try {
             const imageRes = await generateWithRetry({
                 model: imageModel,
                 contents: { parts: [{ text: slidePrompt }] },
-                config: { imageConfig: { aspectRatio: "1:1" } }
+                config: { 
+                    imageConfig: { 
+                        aspectRatio: "1:1",
+                        [cite_start]// ENABLE 2K RESOLUTION FOR PRO MODEL IN CAROUSEL [cite: 902]
+                        imageSize: isPro ? "2K" : undefined
+                    } 
+                }
             });
 
             if (imageRes.candidates && imageRes.candidates[0].content.parts) {
